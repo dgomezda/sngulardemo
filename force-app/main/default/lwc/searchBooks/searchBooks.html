@@ -1,0 +1,43 @@
+<template>
+    <lightning-card  title="Search Books">
+        <lightning-layout multiple-rows="true" vertical-align="end">
+            <lightning-layout-item size="12"  padding="around-small">
+                <lightning-input type="Text" 
+                               label="API key" 
+                               onchange={handleApiKeyChange}
+                               ></lightning-input>
+            </lightning-layout-item> 
+            <lightning-layout-item size="8"  padding="around-small">
+                                     <lightning-input type="Search" 
+                                                    label="search" 
+                                                    variant="label-hidden"
+                                                    onchange={handleQueryTermChange}
+                                                    ></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="4"  padding="around-small">
+                    <lightning-button label="Search" 
+                                      variant="brand" 
+                                      onclick={handleSearch}></lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+        <template if:true={errorMessage}>
+            <p style="color: red;"><lightning-formatted-text value={errorMessage} ></lightning-formatted-text></p>
+        </template>
+        <div if:true={resultBooks}>
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item size="12" >
+                    <p>Total results: {resultBooks.length} </p>
+                </lightning-layout-item>
+                <template for:each={resultBooks} for:item="book">
+                    <lightning-layout-item size="4" key={book.bookId}  small-device-size="6" medium-device-size="4" padding="around-small">
+                        <lightning-tile label={book.title} href={book.previewLink} type="media">
+                            <lightning-icon slot="media" icon-name="standard:timesheet"></lightning-icon>
+                            <p class="slds-truncate" title="description">{book.description}</p>
+                            <p class="slds-truncate" title="description">{book.publishedDate}</p> 
+                        </lightning-tile>
+                    </lightning-layout-item>
+                </template>
+            </lightning-layout>
+        </div>
+    </lightning-card>
+</template>
